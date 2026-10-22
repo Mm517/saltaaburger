@@ -26,6 +26,6 @@ S.forEach(c=>{const d=document.createElement('section');d.className='sc sc-'+c.k
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:.4});
 document.querySelectorAll('.sc').forEach(s=>io.observe(s));
 const gate=$('#gate');if(gate){document.body.classList.add('lock');
- const go=v=>{gate.classList.add('off');document.body.classList.remove('lock');window.Snd&&Snd.set(v);};
- $('#goSound').onclick=()=>go(true);$('#goMute').onclick=()=>go(false);}
+ const go=()=>{gate.classList.add('off');document.body.classList.remove('lock');};
+ $('#goStart').onclick=go;}
 })();
