@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06345B">
+<meta name="robots" content="noindex,nofollow">
+<title>الكاشير – سلطع برجر</title>
+<link rel="preload" href="/fonts/cairo-arabic-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/lalezar-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="stf">
+<div class="stf-gate" id="gate" hidden><div class="auth-card" id="gBox"></div></div>
+
+<header class="stf-bar">
+  <img src="/images/logo.webp" alt="سلطع برجر" width="1000" height="874">
+  <h1>الكاشير</h1><span class="live">لحظي</span><span class="grow"></span>
+  <a class="btn ghost sm" id="toAdmin" href="/admin" hidden>الإدارة</a>
+  <a class="btn ghost sm" href="/">الموقع</a>
+  <button class="btn yellow sm" id="out" type="button">خروج</button>
+</header>
+<nav class="stf-tabs" role="tablist" id="tabs"></nav>
+<main>
+  <div class="pos" id="posV">
+    <div class="pos-l">
+      <div class="tools-r" style="margin:0"><input class="sinp" id="pq" type="search" placeholder="ابحث عن وجبة..." style="flex:1"></div>
+      <div class="pos-cats" id="pcats"></div>
+      <div class="pos-g" id="pgrid"></div>
+    </div>
+    <aside class="ticket" aria-label="الفاتورة">
+      <div class="tk-h"><span>الفاتورة</span><button class="sm-btn" id="clr" type="button">مسح</button></div>
+      <div class="tk-l" id="tkl"></div>
+      <div class="tk-f">
+        <div class="seg3" id="types"><button type="button" data-ty="dine" aria-pressed="true">في المحل</button><button type="button" data-ty="take" aria-pressed="false">تيك أواي</button><button type="button" data-ty="delivery" aria-pressed="false">توصيل</button></div>
+        <div class="row2"><input class="sinp" id="cn" placeholder="اسم العميل (اختياري)"><input class="sinp" id="cp" type="tel" inputmode="numeric" placeholder="الموبايل"></div>
+        <input class="sinp" id="ca" placeholder="العنوان" hidden>
+        <div class="row2"><input class="sinp" id="cd" type="number" min="0" placeholder="خصم (جنيه)"><input class="sinp" id="cf" type="number" min="0" placeholder="رسوم توصيل" hidden></div>
+        <div class="sum-r"><span>المجموع</span><b id="sub">0</b></div>
+        <div class="sum-r big"><span>الإجمالي</span><b id="tot">0 جنيه</b></div>
+        <div class="row2"><input class="sinp" id="cr" type="number" min="0" placeholder="المبلغ المستلم"><div class="sum-r" style="align-items:center"><span>الباقي</span><span class="chg" id="chg">0</span></div></div>
+        <button class="btn pay" id="pay" type="button" disabled>تأكيد وطباعة الفاتورة</button>
+        <label style="display:flex;gap:.4rem;align-items:center;font-weight:800;font-size:.9rem"><input type="checkbox" id="doPrint" checked style="width:18px;height:18px"> اطبع الإيصال تلقائيًا</label>
+      </div>
+    </aside>
+  </div>
+  <div class="stf-main" id="incV" hidden><div class="in-orders"><div class="tools-r" id="ifl"></div><div class="ord-g" id="igrid"></div></div></div>
+</main>
+<script>window.KK_STAFF=true;</script>
+<script src="/js-core/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js-core/config.js"></script>
+<script src="/js-core/store.js"></script>
+<script src="/js-pages/staff.js"></script>
+<script src="/js-pages/cashier.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06345B">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة الإدارة – سلطع برجر</title>
+<link rel="preload" href="/fonts/cairo-arabic-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/lalezar-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="stf">
+<div class="stf-gate" id="gate" hidden><div class="auth-card" id="gBox"></div></div>
+
+<header class="stf-bar">
+  <img src="/images/logo.webp" alt="سلطع برجر" width="1000" height="874">
+  <h1>لوحة الإدارة</h1><span class="live">لحظي</span><span class="grow"></span>
+  <a class="btn ghost sm" href="/cashier">الكاشير</a>
+  <a class="btn ghost sm" href="/">الموقع</a>
+  <button class="btn yellow sm" id="out" type="button">خروج</button>
+</header>
+<nav class="stf-tabs" role="tablist" id="tabs">
+  <button role="tab" data-t="ov" aria-selected="true"></button>
+</nav>
+<main class="stf-main">
+  <section class="pnl" data-p="ov"></section>
+  <section class="pnl" data-p="ord" hidden></section>
+  <section class="pnl" data-p="menu" hidden></section>
+  <section class="pnl" data-p="cus" hidden></section>
+  <section class="pnl" data-p="set" hidden></section>
+</main>
+<script>window.KK_STAFF=true;</script>
+<script src="/js-core/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js-core/config.js"></script>
+<script src="/js-core/store.js"></script>
+<script src="/js-pages/staff.js"></script>
+<script src="/js-pages/admin.js"></script>
+</body>
+</html>

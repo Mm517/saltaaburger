@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0878C9">
+<title>تسجيل الدخول – سلطع برجر</title>
+<meta name="description" content="سجّل دخولك أو أنشئ حساب أو كمّل كضيف، وتابع طلباتك في سلطع برجر.">
+<link rel="preload" href="/fonts/cairo-arabic-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/lalezar-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="auth-pg" style="padding-top:5.5rem">
+<div class="bubbles" aria-hidden="true"></div>
+<main class="auth-card" aria-labelledby="aT">
+  <div class="auth-top"><img src="/characters/spongebob.webp" alt="" width="401" height="421"></div>
+  <h1 id="aT" class="h3d">أهلًا بيك في الأعماق</h1>
+  <p class="sub" id="aSub">سجّل دخولك عشان تتابع طلباتك لحظة بلحظة.</p>
+
+  <div class="seg" id="seg" data-v="login" role="tablist">
+    <i aria-hidden="true"></i>
+    <button type="button" role="tab" data-v="login" aria-selected="true">دخول</button>
+    <button type="button" role="tab" data-v="signup" aria-selected="false">حساب جديد</button>
+  </div>
+
+  <div class="auth-err" id="err" role="alert" hidden></div>
+
+  <form class="auth-form" id="fLogin" novalidate autocomplete="on">
+    <label class="afld">رقم الموبايل<input name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right"></label>
+    <label class="afld">كلمة السر<span class="pw"><input name="pass" type="password" autocomplete="current-password" placeholder="••••••" style="width:100%"><button type="button" data-eye aria-label="إظهار كلمة السر"><svg class="ic"><use href="#i-eye"/></svg></button></span></label>
+    <button class="btn yellow block" type="submit"><svg class="ic"><use href="#i-user"/></svg>دخول</button>
+  </form>
+
+  <form class="auth-form" id="fSign" novalidate autocomplete="on" hidden>
+    <label class="afld">الاسم<input name="name" type="text" autocomplete="name" placeholder="اسمك الكامل"></label>
+    <label class="afld">رقم الموبايل<input name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right"></label>
+    <label class="afld">كلمة السر (6 حروف على الأقل)<span class="pw"><input name="pass" type="password" autocomplete="new-password" placeholder="••••••" style="width:100%"><button type="button" data-eye aria-label="إظهار كلمة السر"><svg class="ic"><use href="#i-eye"/></svg></button></span></label>
+    <button class="btn yellow block" type="submit"><svg class="ic"><use href="#i-sparkles"/></svg>أنشئ حسابي</button>
+  </form>
+
+  <div class="or">أو</div>
+  <button class="btn ghost-d block" type="button" id="bGuest"><svg class="ic"><use href="#i-bag"/></svg>كمّل كضيف بدون حساب</button>
+  <a class="auth-back" href="/"><svg class="ic"><use href="#i-arrow-left"/></svg>الرجوع للموقع</a>
+</main>
+<script src="/js-core/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js-core/config.js"></script>
+<script src="/js-core/store.js"></script>
+<script>
+(()=>{
+  const $=s=>document.querySelector(s);
+  const seg=$('#seg'),eb=$('#err');
+  const next=(()=>{const n=new URLSearchParams(location.search).get('next')||'/';return /^\/[\w\-\/]*(\?[\w=&%.\-]*)?(#[\w\-]*)?$/.test(n)&&!n.startsWith('//')?n:'/';})();
+  const done=()=>{document.body.classList.add('leaving');setTimeout(()=>location.href=next,250);};
+  const show=m=>{eb.hidden=!m;eb.textContent=m||'';};
+  function view(v){
+    seg.dataset.v=v;seg.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));
+    $('#fLogin').hidden=v!=='login';$('#fSign').hidden=v!=='signup';show('');
+    $('#aSub').textContent=v==='login'?'سجّل دخولك عشان تتابع طلباتك لحظة بلحظة.':'حساب جديد في ثواني: اسم ورقم وكلمة سر.';
+  }
+  seg.addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(b)view(b.dataset.v);});
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-eye]');if(!b)return;const i=b.previousElementSibling;i.type=i.type==='password'?'text':'password';b.querySelector('use').setAttribute('href',i.type==='password'?'#i-eye':'#i-eye-off');});
+  const busy=(f,on)=>f.querySelector('button[type=submit]').disabled=on;
+  $('#fLogin').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;busy(f,1);const r=await KK.login(f.phone.value,f.pass.value);busy(f,0);r.err?show(r.err):done();});
+  $('#fSign').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;busy(f,1);const r=await KK.signup(f.name.value,f.phone.value,f.pass.value);busy(f,0);r.err?show(r.err):done();});
+  $('#bGuest').onclick=()=>{KK.guest();done();};
+  if(KK.session()&&!KK.session().guest){$('#aSub').textContent='إنت داخل بالفعل باسم '+KK.session().name+'. تقدر تبدّل الحساب من هنا.';}
+  if(window.matchMedia('(prefers-reduced-motion: no-preference)').matches){const b=document.querySelector('.bubbles');for(let i=0;i<14;i++){const e=document.createElement('i'),s=6+Math.random()*22;e.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${9+Math.random()*10}s;animation-delay:-${Math.random()*14}s`;b.appendChild(e);}}
+})();
+</script>
+<style>body.leaving .auth-card{transition:transform .25s,opacity .25s;transform:scale(.94) translateY(20px);opacity:0}</style>
+</body>
+</html>

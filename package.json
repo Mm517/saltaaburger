@@ -1,1 +1,1 @@
-{"name":"krusty-krab-site","version":"1.0.0","private":true,"description":"سلطع برجر – Krusty Krab","devDependencies":{"lucide-static":"latest"}}
+{"name":"krusty-krab-site","version":"1.0.0","private":true,"description":"سلطع برجر – Krusty Krab","scripts":{"dev":"vercel dev"}}
