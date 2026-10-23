@@ -1,0 +1,73 @@
+/* ===== صفحة القصة: فريمات بتتحرك مع الاسكرول (GSAP ScrollTrigger) ===== */
+html{scroll-behavior:auto!important}
+body.lock{overflow:hidden}
+.dive{background:#06345b;padding-top:var(--navh)}
+.sq{position:relative;height:1100svh}
+.sq-stage{position:sticky;top:var(--navh);height:calc(100svh - var(--navh));overflow:hidden;background:#06345b;isolation:isolate}
+#sqCv{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-2}
+.sq-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(rgba(3,31,56,.35),transparent 22%,transparent 50%,rgba(3,31,56,.72))}
+
+/* الكابشن */
+.sq-cap{position:absolute;bottom:clamp(1.2rem,5vh,3rem);inset-inline:0;margin-inline:auto;width:min(680px,calc(100% - 190px));text-align:center;display:grid;justify-items:center;gap:.45rem;z-index:3;pointer-events:none}
+.sq-cap .row{pointer-events:auto}
+.sq-n{font-weight:900;font-size:.82rem;letter-spacing:1px;color:#fff;background:rgba(3,31,56,.7);border:2px solid var(--yellow);border-radius:99px;padding:.1rem .8rem}
+.sq-cap h2{font-size:clamp(1.9rem,5.2vw,3.4rem);margin:0}
+.sq-cap h2 .w{display:inline-block;will-change:transform,opacity}
+.sq-cap p{margin:0;font-weight:800;font-size:clamp(1rem,2.2vw,1.2rem);line-height:1.7;color:#fff;text-shadow:0 2px 10px rgba(3,31,56,.95),0 0 3px rgba(3,31,56,.9);max-width:34em}
+.sq-cap .row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.3rem;visibility:hidden}
+
+/* أسهم التنقل + نقاط المشاهد */
+.sq-nav{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:.55rem;padding:.55rem .45rem;background:rgba(3,31,56,.82);border:3px solid var(--yellow);border-radius:999px;box-shadow:0 6px 0 #b98a00,var(--sh);backdrop-filter:blur(6px)}
+.sq-arr{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:var(--navy);border:0;cursor:pointer;transition:transform .2s,opacity .25s,background .25s,box-shadow .25s}
+.sq-arr .ic{width:24px;height:24px;stroke-width:3}
+#sqUp .ic{transform:rotate(180deg)}
+.sq-arr:hover{transform:scale(1.1)}.sq-arr:active{transform:scale(.92)}
+.sq-arr:disabled{opacity:.25;cursor:default;transform:none}
+.sq-arr.go{background:#fff;box-shadow:0 0 0 6px rgba(255,213,42,.55)}
+#sqDn:not(:disabled):not(.go) .ic{animation:sqNudge 1.5s ease-in-out infinite}
+#sqUp.go .ic{animation:sqNudgeU .5s ease-out}#sqDn.go .ic{animation:sqNudge .5s ease-out}
+@keyframes sqNudge{50%{transform:translateY(5px)}}
+@keyframes sqNudgeU{50%{transform:rotate(180deg) translateY(5px)}}
+.sq-dots{display:flex;flex-direction:column;gap:.5rem}
+.sq-dots button{width:12px;height:12px;border-radius:50%;border:2px solid #fff;background:transparent;padding:0;cursor:pointer;transition:transform .3s,background .3s,border-color .3s}
+.sq-dots button.on{background:var(--yellow);border-color:var(--yellow);transform:scale(1.5)}
+
+/* تلميح الاسكرول في أول المشهد */
+.sq-hint{position:absolute;bottom:1rem;inset-inline:0;z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;font-weight:900;color:#fff;text-shadow:0 2px 8px rgba(3,31,56,.9);pointer-events:none;bottom:clamp(7rem,24vh,13rem)}
+.sq-hint span{background:rgba(3,31,56,.7);border-radius:99px;padding:.25rem 1rem;font-size:.95rem;margin-bottom:.2rem}
+.sq-hint .ic{width:2.4rem;height:2.4rem;stroke-width:3;margin-top:-.7rem;animation:sqHint 1.4s ease-in-out infinite;filter:drop-shadow(0 2px 4px rgba(3,31,56,.9))}
+.sq-hint .ic+.ic{animation-delay:.18s;opacity:.55}
+@keyframes sqHint{0%{transform:translateY(-6px);opacity:0}40%{opacity:1}100%{transform:translateY(12px);opacity:0}}
+.sq-top{position:absolute;left:50%;top:1rem;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:.4rem;background:var(--yellow);color:var(--navy);border:3px solid var(--navy);border-radius:99px;padding:.35rem 1rem;font:inherit;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #b98a00}
+.sq-top .ic{width:1.2rem;height:1.2rem;stroke-width:3;transform:rotate(180deg)}
+.sq-bar{position:absolute;inset:auto 0 0;height:6px;background:rgba(255,255,255,.18);z-index:7}
+.sq-bar i{display:block;height:100%;width:100%;transform-origin:100% 50%;transform:scaleX(0);background:linear-gradient(270deg,var(--yellow),var(--orange))}
+
+@media(max-width:760px){
+  .sq-stage{height:calc(100svh - var(--navh) - 70px)}
+  .sq-cap{position:absolute;left:12px;right:64px;width:auto;margin:0;bottom:1rem;text-align:start;justify-items:start}
+  .sq-nav{right:8px;padding:.4rem .3rem;gap:.4rem}.sq-arr{width:40px;height:40px}.sq-arr .ic{width:20px;height:20px}
+  .sq-dots{gap:.4rem}.sq-dots button{width:10px;height:10px}
+  .sq-hint{bottom:9rem}
+  .sq-cap p{font-size:.95rem}
+}
+
+/* بوابة الدخول */
+#gate{position:fixed;inset:0;z-index:98;background:radial-gradient(circle at 50% 40%,var(--blue),var(--navy));display:grid;place-content:center;justify-items:center;gap:1rem;text-align:center;padding:1.5rem;transition:opacity .5s,visibility .5s}
+#gate.off{opacity:0;visibility:hidden}#gate img{width:min(50vw,210px);animation:ldb 2.4s ease-in-out infinite}#gate p{max-width:420px;font-weight:700}
+/* بوابة الدخول: المية بتعلى وبعدين نغطس */
+#gate{overflow:hidden}
+#gate>*:not(.bubbles):not(.water){position:relative;z-index:2}
+#gate .bubbles.gb{z-index:1}
+#gate.diving>*:not(.water):not(.bubbles){transition:transform .9s cubic-bezier(.6,0,.9,.4),opacity .6s;transform:translateY(-30px) scale(.94);opacity:0}
+#gate .water{position:absolute;inset:0;z-index:5;background:linear-gradient(180deg,#63d2f8,#0a8be0 55%,#075a9e);transform:translateY(104%);transition:transform .95s cubic-bezier(.65,0,.25,1)}
+#gate .water::before{content:"";position:absolute;inset-inline:0;top:-26px;height:28px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 24'%3E%3Cpath d='M0 24V12C20 0 40 0 80 12s60 12 80 0v12z' fill='%2363d2f8'/%3E%3C/svg%3E") repeat-x 0 100%/160px 28px;animation:swv 2.4s linear infinite}
+#gate.diving .water{transform:none}
+#gate #goStart:disabled{opacity:.7;cursor:progress}
+#gate .g-load{width:min(260px,70vw);height:8px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden;position:relative;z-index:2}
+#gate .g-load i{display:block;height:100%;width:100%;transform-origin:100% 50%;transform:scaleX(0);background:var(--yellow)}
+@media(prefers-reduced-motion:reduce){#gate .water,#gate>*{transition:none!important}}
+@keyframes swv{to{background-position-x:160px}}
+.sq-cap{transition:bottom .5s}.sq-cap.end{bottom:clamp(3.4rem,13vh,6.5rem)}
+.sq-cap.end p{display:none}
+@media(max-width:760px){.sq-cap.end{bottom:3.2rem}}
